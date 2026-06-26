@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -79,3 +79,262 @@
             width: 100%;
             height: 500px;
             background: radial-gradient(ellipse at center, #
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MagnoSphere™ - Mapa de Intensidad Electromagnética</title>
+    <meta name="description" content="Visualizador global de intensidad electromagnética. Proyecto de Andrés Felipe Colorado González.">
+    <meta name="author" content="Andrés Felipe Colorado González">
+    <meta name="dcterms.created" content="2026-06-26">
+    <meta name="dcterms.creator" content="Andrés Felipe Colorado González">
+    <meta name="google-site-verification" content="F3ONxYyuwMM8noGLGRLlze6Muzy1O4E1U4sfsFWxt08" />
+    
+    <!-- GoatCounter Analytics -->
+    <script data-goatcounter="https://magnosphere.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma,<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MagnoSphere™ - Mapa de Intensidad Electromagnética</title>
+    <meta name="description" content="Visualizador global de intensidad electromagnética. Proyecto de Andrés Felipe Colorado González.">
+    <meta name="author" content="Andrés Felipe Colorado González">
+    <meta name="dcterms.created" content="2026-06-26">
+    <meta name="dcterms.creator" content="Andrés Felipe Colorado González">
+    <meta name="google-site-verification" content="F3ONxYyuwMM8noGLGRLlze6Muzy1O4E1U4sfsFWxt08" />
+    
+    <!-- GoatCounter Analytics -->
+    <script data-goatcounter="https://magnosphere.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 20px;
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+        }
+        
+        h1 {
+            font-size: 3em;
+            color: #00ffff;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.8), 0 0 40px rgba(0, 255, 255, 0.4);
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            color: #a0a0a0;
+            margin-bottom: 15px;
+        }
+        
+        .author {
+            font-size: 0.9em;
+            color: #00ffff;
+            opacity: 0.7;
+        }
+        
+        .map-container {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.15);
+            margin-bottom: 30px;
+        }
+        
+        #map {
+            width: 100%;
+            height: 500px;
+            background: radial-gradient(ellipse at center, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .legend-color {
+            width: 30px;
+            height: 20px;
+            border-radius: 3px;
+            box-shadow: 0 0 10px currentColor;
+        }
+        
+        .info-panel {
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .info-panel h2 {
+            color: #00ffff;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+        
+        .info-panel p {
+            line-height: 1.8;
+            color: #c0c0c0;
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.85em;
+            border-top: 1px solid rgba(0, 255, 255, 0.1);
+            margin-top: 40px;
+            width: 100%;
+        }
+        
+        .pulse {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(0, 255, 255, 0.6);
+            box-shadow: 0 0 20px #00ffff;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.5; }
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            #map { height: 350px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>MagnoSphere™</h1>
+            <p class="subtitle">Mapa Global de Intensidad Electromagnética</p>
+            <p class="author">Por Andrés Felipe Colorado González | Jerez, España</p>
+        </header>
+        
+        <div class="map-container">
+            <div id="map"></div>
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #00ffff;"></div>
+                    <span>Baja Intensidad</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #ffff00;"></div>
+                    <span>Media Intensidad</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #ff00ff;"></div>
+                    <span>Alta Intensidad</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-panel">
+            <h2>¿Qué es MagnoSphere™?</h2>
+            <p>MagnoSphere™ es un visualizador interactivo que muestra la distribución de intensidad electromagnética en el planeta. Utiliza datos de referencia para mapear zonas de actividad magnética natural y artificial.</p>
+            <p><strong>Autor:</strong> Andrés Felipe Colorado González</p>
+            <p><strong>Ubicación:</strong> Jerez de la Frontera, Andalucía, España</p>
+            <p><strong>Fecha de creación:</strong> 26 de junio de 2026</p>
+            <p><strong>Estado:</strong> Marca registrada en trámite ante OEPM</p>
+        </div>
+        
+        <div class="info-panel">
+            <h2>Aplicaciones</h2>
+            <p>• Investigación geofísica y geomagnética</p>
+            <p>• Análisis de anomalías electromagnéticas</p>
+            <p>• Estudios de impacto en telecomunicaciones</p>
+            <p>• Educación científica y divulgación</p>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2026 MagnoSphere™ | Andrés Felipe Colorado González | Todos los derechos reservados</p>
+        <p>Marca en trámite - Oficina Española de Patentes y Marcas (OEPM)</p>
+    </footer>
+    
+    <script>
+        // Simulación de puntos de intensidad electromagnética
+        const map = document.getElementById('map');
+        
+        function createPulse(x, y, color) {
+            const pulse = document.createElement('div');
+            pulse.className = 'pulse';
+            pulse.style.left = x + '%';
+            pulse.style.top = y + '%';
+            pulse.style.background = color;
+            pulse.style.boxShadow = `0 0 20px ${color}`;
+            map.appendChild(pulse);
+        }
+        
+        // Puntos de ejemplo
+        const points = [
+            {x: 20, y: 30, color: '#00ffff'},
+            {x: 45, y: 50, color: '#ffff00'},
+            {x: 70, y: 25, color: '#ff00ff'},
+            {x: 35, y: 70, color: '#00ffff'},
+            {x: 80, y: 60, color: '#ffff00'},
+            {x: 15, y: 80, color: '#ff00ff'},
+            {x: 60, y: 40, color: '#00ffff'},
+        ];
+        
+        points.forEach(p => createPulse(p.x, p.y, p.color));
+    </script>
+</body>
+</html>
