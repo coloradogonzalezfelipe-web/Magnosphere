@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MagnoSphere™ - Mapa de Intensidad Electromagnética</title>
+    <meta name="description" content="Proyecto MagnoSphere™ por Andrés Felipe Colorado González">
+    <meta name="author" content="Andrés Felipe Colorado González">
+    <meta name="dcterms.created" content="2026-06-26">
+    <meta name="google-site-verification" content="F3ONxYyuwMM8noGLGRLlze6Muzy1O4E1U4sfsFWxt08" />
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script data-goatcounter="https://magnosphere.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+    <style>
+        body {
+            margin: 0;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+        }
+        .logo-container {
+            margin: 30px 0 10px 0;
+            display: flex;
+            justify-content: center;
+        }
+        .logo-animado {
+            width: 150px;
+            height: 150px;
+            filter: drop-shadow(0 0 25px #00ffff);
+        }
+        @-webkit-keyframes spin {
+            from { -webkit-transform: rotate(0deg); }
+            to { -webkit-transform: rotate(360deg); }
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @-webkit-keyframes pulse {
+            0%, 100% { r: 8; opacity: 1; }
+            50% { r: 12; opacity: 0.7; }
+        }
+        @keyframes pulse {
+            0%, 100% { r: 8; opacity: 1; }
+            50% { r: 12; opacity: 0.7; }
+        }
+        .ring-1 { 
+            -webkit-animation: spin 8s linear infinite; 
+            animation: spin 8s linear infinite; 
+            -webkit-transform-origin: center; 
+            transform-origin: center; 
+        }
+        .ring-2 { 
+            -webkit-animation: spin 12s linear infinite reverse; 
+            animation: spin 12s linear infinite reverse; 
+            -webkit-transform-origin: center; 
+            transform-origin: center; 
+        }
+        .ring-3 { 
+            -webkit-animation: spin 16s linear infinite; 
+            animation: spin 16s linear infinite; 
+            -webkit-transform-origin: center; 
+            transform-origin: center; 
+        }
+        .core { 
+            -webkit-animation: pulse 2s ease-in-out infinite; 
+            animation: pulse 2s ease-in-out infinite; 
+        }
+        h1 {
+            font-size: 2.5em;
+            color: #00ffff;
+            text-shadow: 0 0 20px #00ffff;
+            margin: 10px 0 10px 0;
+        }
+        .subtitle { 
+            color: #a0a0a0; 
+            margin-bottom: 20px; 
+        }
+        #map { 
+            height: 400px; 
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+            border: 2px solid #00ffff;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+        .info {
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        .legend {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #00ffff;
+            border-radius: 10px;
+            padding: 15px;
+            max-width: 300px;
+            margin: 20px auto;
+            text-align: left;
+        }
+        .legend h3 { 
+            margin: 0 0 10px 0; 
+            color: #00ffff; 
+            text-align: center; 
+        }
+        .legend-item { 
+            display: flex; 
+            align-items: center; 
+            margin: 8px 0; 
+        }
+        .legend-color { 
+            width: 20px; 
+            height: 20px; 
+            border-radius: 50%; 
+            margin-right: 10px; 
+            border: 1px solid #fff; 
+        }
+        footer { 
+            margin: 40px 0; 
+            font-size: 0.8em; 
+            color: #666; 
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <svg class="logo-animado" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <g class="ring-1" style="transform-origin: 100px 100px; transform-box: fill-box;">
+                <circle cx="100" cy="100" r="85" fill="none" stroke="#00ffff" stroke-width="3" opacity="0.8"/>
+            </g>
+            <g class="ring-2" style="transform-origin: 100px 100px; transform-box: fill-box;">
+                <circle cx="100" cy="100" r="65" fill="none" stroke="#ffff00" stroke-width="3" opacity="0.8"/>
+            </g>
+            <g class="ring-3" style="transform-origin: 100px 100px; transform-box: fill-box;">
+                <circle cx="100" cy="100" r="45" fill="none" stroke="#ff00ff" stroke-width="3" opacity="0.8"/>
+            </g>
+            <circle class="core" cx="100" cy="100" r="8" fill="#ffffff"/>
+            <text x="100" y="175" text-anchor="middle" fill="#00ffff" font-size="16" font-family="Arial" font-weight="bold">MagnoSphere™</text>
+        </svg>
+    </div>
+
+    <h1>MagnoSphere™</h1>
+    <p class="subtitle">Mapa Global de Intensidad Electromagnética</p>
+    
+    <div id="map"></div>
+    
+    <div class="legend">
+        <h3>Escala de Intensidad</h3>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #00ffff;"></div>
+            <span><strong>Alta:</strong> > 50 μT</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #ffff00;"></div>
+            <span><strong>Media:</strong> 30-50 μT</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #ff00ff;"></div>
+            <span><strong>Baja:</strong> < 30 μT</span>
+        </div>
+    </div>
+    
+    <div class="info">
+        <p><strong>Autor:</strong> Andrés Felipe Colorado González</p>
+        <p><strong>Ubicación:</strong> Jerez de la Frontera, España</p>
+        <p><strong>Fecha de creación:</strong> 26 de junio de 2026</p>
+        <p><strong>Estado:</strong> Marca en trámite OEPM</p>
+    </div>
+    
+    <footer>
+        <p>© 2026 MagnoSphere™ | Todos los derechos reservados</p>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map').setView([20, 0], 2);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '© OpenStreetMap © CartoDB'
+        }).addTo(map);
+
+        const points = [
+            {lat: 36.68, lng: -6.13, color: '#00ffff', name: 'Jerez - Alta'}, 
+            {lat: 40.42, lng: -3.70, color: '#ffff00', name: 'Madrid - Media'}, 
+            {lat: 51.50, lng: -0.12, color: '#ff00ff', name: 'Londres - Baja'}, 
+            {lat: 35.68, lng: 139.69, color: '#00ffff', name: 'Tokio - Alta'}, 
+            {lat: 40.71, lng: -74.00, color: '#ffff00', name: 'NY - Media'}, 
+            {lat: -33.86, lng: 151.20, color: '#ff00ff', name: 'Sydney - Baja'} 
+        ];
+
+        points.forEach(p => {
+            L.circleMarker([p.lat, p.lng], {
+                radius: 8,
+                fillColor: p.color,
+                color: '#fff',
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.8
+            }).addTo(map).bindPopup(p.name);
+        });
+    </script>
+</body>
+  </html>
